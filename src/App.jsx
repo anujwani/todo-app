@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NewProject } from "./components/NewProject";
 import { NoProject } from "./components/NoProject";
 import { ProjectSidebar } from "./components/ProjectSidebar";
+import { SelectedProject } from "./components/SelectedProject";
 
 function App() {
   const [projectState, setProjectState] = useState({
@@ -36,18 +37,44 @@ function App() {
 
       return {
         ...prevState,
+        selectedProject: undefined,
         projects: [...prevState.projects, data]
       }
     });
   }
 
-  let content;
-  if (projectState.selectedProject === null) content = <NewProject onSave={handleSaveProject} onCancel={handleCancelAddProject} />
-  else if (projectState.selectedProject === undefined) content = <NoProject onAdd={handleAddProject} />
+  const handleSelectProject = (id) => {
+    setProjectState(prevState => {
+      return {
+        ...prevState,
+        selectedProject: id
+      }
+    })
+  }
+
+  const handleDeleteProject = (id) => {
+    setProjectState(prevState => {
+      return {
+        ...prevState,
+        selectedProject: undefined,
+        projects: prevState.projects.filter(p => p.id !== id)
+      }
+    })
+  }
+
+  const selectedProject = projectState.projects.find(p => p.id === projectState.selectedProject);
+  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />
+  if (projectState.selectedProject === undefined) content = <NoProject onAdd={handleAddProject} />
+  else if (projectState.selectedProject === null) content = <NewProject onSave={handleSaveProject} onCancel={handleCancelAddProject} />
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectSidebar onAdd={handleAddProject} projects={projectState.projects} />
+      <ProjectSidebar 
+        onAdd={handleAddProject} 
+        projects={projectState.projects} 
+        onSelect={handleSelectProject} 
+        selectedProject={projectState.selectedProject}
+      />
       {content}
     </main>
   );
