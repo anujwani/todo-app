@@ -1,0 +1,12 @@
+export const Input = ({ label, textarea, ...props }) => {
+    const fieldClass = "w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600";
+
+    return <p className="flex flex-col gap-1 my-4">
+        <label className="text-sm text-bold uppercase text-stone-500">
+            {label}
+        </label>
+        {textarea ?
+            <textarea className={fieldClass} {...props} />
+            : <input className={fieldClass} {...props} />}
+    </p>
+}
