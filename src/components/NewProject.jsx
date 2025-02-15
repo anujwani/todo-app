@@ -31,8 +31,8 @@ export const NewProject = ({ onSave }) => {
     return (
         <>
             <Modal ref={modal} buttonLabel="Close">
-                <h2>Invalid Input</h2>
-                <p>Oops... You forgot to enter a value</p>
+                <h2 className='text-xl font-bold text-stone-500 my-4'>Invalid Input</h2>
+                <p className='text-stone-400 mb-4'>Oops... You forgot to enter a value</p>
             </Modal>
             <div className="w-[35rem] mt-16">
                 <menu className="flex items-center justify-end gap-4 my-4">
